@@ -55,6 +55,18 @@ DATABASE_URL=sqlite+aiosqlite:///./fastapi.db
 SECRET=secret
 FIRST_SUPERUSER_EMAIL=example@example.ru
 FIRST_SUPERUSER_PASSWORD=password
+TYPE = example
+PROJECT_ID = example
+PRIVATE_KEY_ID = example
+PRIVATE_KEY = example
+CLIENT_EMAIL = example
+CLIENT_ID = example
+AUTH_URI = example
+TOKEN_URI = example
+AUTH_PROVIDER_X509_CERT_URL = example
+CLIENT_X509_CERT_URL = example
+UNIVERSE_DOMAIN = example
+EMAIL = 'example@gmail.com'
 ```
 ### Выполнить миграции:
 ```
