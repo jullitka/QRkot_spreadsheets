@@ -66,7 +66,7 @@ class CRUDCharityProject(CRUDBase):
     async def get_projects_by_completion_rate(
             self,
             session: AsyncSession
-    ) -> list[dict]:
+    ) -> List[dict]:
         closed_projects = await session.execute(
             select(
                 CharityProject.name, CharityProject.close_date,
