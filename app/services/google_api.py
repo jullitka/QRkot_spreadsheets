@@ -4,32 +4,13 @@ from typing import List
 
 from aiogoogle import Aiogoogle
 
+from app.api.validators import check_size_table
 from app.core.config import settings
-
-
-FORMAT = "%Y/%m/%d %H:%M:%S"
-ROW_COUNT = 100
-COLUMN_COUNT = 11
-
-RANGE = 'R1C1:R{row}C{col}'
+from app.core.constants import FORMAT, RANGE, SPREADSHEET_BODY
 
 
 def now_date(format=FORMAT):
     return datetime.now().strftime(format)
-
-
-SPREADSHEET_BODY = dict(
-    properties=dict(
-        title='Отчет на',
-        locale='ru_RU'
-    ),
-    sheets=[dict(properties=dict(
-        sheetType='GRID',
-        sheetId=0,
-        title='Лист1',
-        gridProperties=dict(rowCount=ROW_COUNT,
-                            columnCount=COLUMN_COUNT)))]
-)
 
 
 async def spreadsheets_create(
@@ -76,10 +57,7 @@ async def spreadsheets_update_value(
     ]
     row_count = len(table_values)
     column_count = max(map(len, table_values))
-    if row_count > ROW_COUNT or column_count > COLUMN_COUNT:
-        raise ValueError('Данные не соответствуют размеру таблицы.'
-                         f'Сформировано: {row_count}. Допустимое значение:{ROW_COUNT}'
-                         f'Сформировано: {column_count}. Допустимое значение:{COLUMN_COUNT}')
+    await check_size_table(row_count, column_count)
     update_body = dict(majorDimension='ROWS',
                        values=table_values)
     await wrapper_services.as_service_account(

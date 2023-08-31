@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.constants import COLUMN_COUNT, ROW_COUNT
 from app.crud.charity_project import charity_project_crud
 from app.models import CharityProject
 
@@ -81,3 +82,17 @@ async def check_project_closed(
             status_code=400,
             detail='Закрытый проект нельзя редактировать!',
         )
+
+
+async def check_size_table(
+    row_count: int,
+    column_count: int,
+) -> None:
+    """Проверка, соответствует ли количество необходимыз строк и столбцов
+    установленным в таблице"""
+    if row_count > ROW_COUNT or column_count > COLUMN_COUNT:
+        raise HTTPException(
+            status_code=400,
+            detail='Данные не соответствуют размеру таблицы. '
+                   f'Сформировано: {row_count} строк(и). Допустимое значение: {ROW_COUNT} строк(и) '
+                   f'Сформировано: {column_count} столбца(ов). Допустимое значение: {COLUMN_COUNT} столбца(ов)')

@@ -50,20 +50,6 @@ class CRUDCharityProject(CRUDBase):
         return fully_invested.scalars().first()
 
     async def get_projects_by_completion_rate(
-        self,
-        session: AsyncSession
-    ) -> List[dict]:
-        closed_projects = await session.execute(
-            select(
-                CharityProject.name,
-                CharityProject.create_date,
-                CharityProject.close_date,
-                CharityProject.description
-            ).where(CharityProject.fully_invested)
-        )
-        return closed_projects.scalars().all()
-
-    async def get_projects_by_completion_rate(
             self,
             session: AsyncSession
     ) -> List[dict]:
